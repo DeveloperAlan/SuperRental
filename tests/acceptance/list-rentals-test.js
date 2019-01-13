@@ -1,12 +1,33 @@
-import { test } from 'qunit';
-import moduleForAcceptance from 'super-rentals/tests/helpers/module-for-acceptance';
+import { module, test } from 'qunit';
+import {
+    click,
+    visit,
+    currentURL
+} from '@ember/test-helpers';
+import { setupApplicationTest } from 'ember-qunit';
 
-moduleForAcceptance('Acceptance | list rentals');
+module('Acceptance | list rentals', function (hooks) {
+  setupApplicationTest(hooks);
 
-test('visiting /', function(assert) {
-  visit('/');
-
-  andThen(function() {
-    assert.equal(currentURL(), '/');
+  test('should show rentals as the home page', async function (assert) {
+    await visit('/');
+    assert.equal(currentURL(), '/rentals', 'should redirect automatically');
   });
+
+  test('should link to information about the company', async function(assert) {
+    await visit('/');
+    await click('.menu-about');
+    assert.equal(currentURL(), '/about', 'should navigate to about');
+  })
+
+  test('should link to contact information', async function(assert) {
+    await visit('/');
+    await click('.menu-contact');
+    assert.equal(currentURL(), '/contact', 'should navigate to contact');
+  })
+
+  test('should list available rentals.', async function(assert){
+    await visit('/');
+    assert.equal(this.element.querySelectorAll('.listing').length, 3, 'should display 3 listings');
+  })
 });
