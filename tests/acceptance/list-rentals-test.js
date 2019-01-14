@@ -2,7 +2,9 @@ import { module, test } from 'qunit';
 import {
     click,
     visit,
-    currentURL
+    currentURL,
+    fillIn,
+    keyEvent
 } from '@ember/test-helpers';
 import { setupApplicationTest } from 'ember-qunit';
 
